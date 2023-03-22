@@ -12,15 +12,15 @@ class AuthController
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'name'                  => 'required|string|max:255',
-            'email'                 => 'required|string|email|max:255|unique:users',
-            'password'              => 'confirmed|required|string|min:8',
-            'password_confirmation' => 'required|string|min:8'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'confirmed|required|string|min:8',
+            'password_confirmation' => 'required|string|min:8',
         ]);
 
         $user = User::create([
-            'name'     => $validatedData['name'],
-            'email'    => $validatedData['email'],
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
 
@@ -28,20 +28,20 @@ class AuthController
 
         return response()->json([
             'access_token' => $token,
-            'token_type'   => 'Bearer',
+            'token_type' => 'Bearer',
         ]);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email'    => 'required|email',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Email ou senha inválidos'
+                'message' => 'Email ou senha inválidos',
             ], 401);
         }
 
@@ -51,7 +51,7 @@ class AuthController
 
         return response()->json([
             'access_token' => $token,
-            'token_type'   => 'Bearer',
+            'token_type' => 'Bearer',
         ]);
     }
 
@@ -65,7 +65,7 @@ class AuthController
         $request->user()->tokens()->delete();
 
         return response()->json([
-            'message' => "Logout with success",
+            'message' => 'Logout with success',
         ]);
     }
 }

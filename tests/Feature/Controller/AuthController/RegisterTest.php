@@ -24,7 +24,7 @@ it('should be validate required fields', function () {
     $params = [
         'name' => '',
         'email' => '',
-        'password' => ''
+        'password' => '',
     ];
 
     $response = postJson(route('register'), $params);

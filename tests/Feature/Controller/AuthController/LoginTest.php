@@ -8,12 +8,12 @@ it('should be login with success', function () {
     $password = 'secret@123';
 
     $user = User::factory([
-        'password' => Hash::make($password)
+        'password' => Hash::make($password),
     ])->create();
 
     $response = postJson(route('login'), [
         'email' => $user->email,
-        'password' => $password
+        'password' => $password,
     ]);
 
     $response
@@ -25,12 +25,12 @@ it('should be not login with invalid credentials', function () {
     $password = 'secret@123';
 
     $user = User::factory([
-        'password' => Hash::make($password)
+        'password' => Hash::make($password),
     ])->create();
 
     $response = postJson(route('login'), [
         'email' => $user->email,
-        'password' => $password.'123'
+        'password' => $password.'123',
     ]);
 
     $response
@@ -41,7 +41,7 @@ it('should be not login with invalid credentials', function () {
 it('should be validate required fields', function () {
     $params = [
         'email' => '',
-        'password' => ''
+        'password' => '',
     ];
 
     $response = postJson(route('login'), $params);

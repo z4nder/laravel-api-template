@@ -15,6 +15,5 @@ it('should be return auth user', function () {
     $this->assertEquals($response['email_verified_at'], $user->email_verified_at);
 });
 
-it('should be return error with unauthenticated', fn () =>
-    getJson(route('me'))->assertStatus(401)->assertSee('Unauthenticated')
+it('should be return error with unauthenticated', fn () => getJson(route('me'))->assertStatus(401)->assertSee('Unauthenticated')
 );
