@@ -6,7 +6,7 @@ use App\Models\User;
 
 class UserPolicy
 {
-    public function viewAny(User $user): bool
+    public function view(User $user): bool
     {
         return can('users.list', $user);
     }
