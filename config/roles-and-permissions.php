@@ -15,8 +15,9 @@ $roles = [
         '*',
     ],
     'manager' => [
-        $permissions['users'][0],
-        $permissions['users'][1],
+        'users' => [
+            $permissions['users'][0]
+        ],
     ],
 ];
 

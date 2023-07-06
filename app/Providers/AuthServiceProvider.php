@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Gate;
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        User::class => UserPolicy::class,
+        // User::class => UserPolicy::class,
     ];
 
     public function boot(): void
@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function ($user, $ability) {
-            return $user->hasRole('Master') ? true : null;
+            return $user->hasRole('master') ? true : null;
         });
     }
 }
