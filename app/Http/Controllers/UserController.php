@@ -11,7 +11,16 @@ class UserController extends Controller
 {
     public function index(): Collection
     {
-        return User::all();
+        $users = User::with('roles')->get();
+
+        $users = $users->map(function ($user) {
+            return [
+                ...$user->toArray(),
+                'roles' => $user->roles->pluck('name')->toArray(),
+            ];
+        });
+
+        return $users;
     }
 
     public function store(UserStore $request)
