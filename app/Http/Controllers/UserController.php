@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\UserStore;
 use App\Http\Requests\User\UserUpdate;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
-    public function index(): Collection
+    public function index()
     {
-        $users = User::with('roles')->get();
+        $users = User::with('roles')->simplePaginate(5);
 
-        $users = $users->map(function ($user) {
+        $users->getCollection()->transform(function ($user) {
             return [
                 ...$user->toArray(),
                 'roles' => $user->roles->pluck('name')->toArray(),
