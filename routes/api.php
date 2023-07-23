@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [UserController::class, 'show'])->name('show');
         Route::put('/{id}', [UserController::class, 'update'])->name('update');
         Route::delete('/{id}', [UserController::class, 'delete'])->name('delete');
+    });
+    Route::prefix('roles')->name('roles.')->group(function () {
+        Route::get('/', [RoleController::class, 'index'])
+            ->middleware(['can:users-list'])
+            ->name('index');
     });
 });
 // });
