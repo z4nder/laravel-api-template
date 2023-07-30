@@ -40,7 +40,7 @@ class AuthController
             'password' => 'required',
         ]);
 
-        if (! Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Email ou senha inválidos',
             ], 401);
@@ -56,9 +56,13 @@ class AuthController
         ]);
     }
 
-    public function me(Request $request): User
+    public function me(Request $request): array
     {
-        return $request->user();
+        $user = $request->user()->toArray();
+        $user['roles'] = $request->user()->getRoleNames()->toArray();
+        $user['permissions'] = $request->user()->getAllPermissions()->pluck('name')->toArray();
+
+        return $user;
     }
 
     public function logout(Request $request): JsonResponse

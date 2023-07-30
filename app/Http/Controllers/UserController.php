@@ -28,7 +28,7 @@ class UserController extends Controller
     public function store(UserStore $request)
     {
         $inputs = $request->validated();
-
+        $inputs['password'] = bcrypt($inputs['password']);
         $user = User::create($inputs);
         foreach ($inputs['roles'] as $role) {
             $role = Role::find($role);
