@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [UserController::class, 'store'])->name('store');
         Route::get('/{id}', [UserController::class, 'show'])->name('show');
         Route::put('/{id}', [UserController::class, 'update'])->name('update');
-        Route::delete('/{id}', [UserController::class, 'delete'])->name('delete');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('roles')->name('roles.')->group(function () {
         Route::get('/', [RoleController::class, 'index'])
