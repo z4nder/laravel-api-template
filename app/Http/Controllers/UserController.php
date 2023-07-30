@@ -18,7 +18,7 @@ class UserController extends Controller
         $users->getCollection()->transform(function ($user) {
             return [
                 ...$user->toArray(),
-                'roles' => $user->roles->pluck('name')->toArray(),
+                'roles' => $user->roles->toArray(),
             ];
         });
 
@@ -30,10 +30,10 @@ class UserController extends Controller
         $inputs = $request->validated();
 
         $user = User::create($inputs);
-
-        $roles = Role::whereIn('id', $inputs['roles'])->pluck('name');
-
-        $user->assignRoles($roles);
+        foreach ($inputs['roles'] as $role) {
+            $role = Role::find($role);
+            $user->assignRole($role->name);
+        }
 
         return response()->json([
             'data' => $user,
@@ -42,14 +42,21 @@ class UserController extends Controller
 
     public function show(string $id): User
     {
-        return User::find($id);
+        return User::with('roles')->findOrFail($id);
     }
 
     public function update(UserUpdate $request, string $id)
     {
         $inputs = $request->validated();
 
-        $user = User::find($id)->update($inputs);
+        $user = User::findOrFail($id);
+
+        foreach ($inputs['roles'] as $role) {
+            $role = Role::find($role);
+            $user->assignRole($role->name);
+        }
+
+        $user->update($inputs);
 
         return response()->json([
             'data' => $user,
